@@ -59,10 +59,11 @@ public class TestSteps extends MainTest {
 	@When("^I Place a (.+) pounds bet$")
 	public void placePoundsBet(String value) {
 		loggedInUserPage = new LoggedInUserPage(event_driver)
-				.getUserBalance()
-				.insertBetValue(value)
+				.getUserBalance(chromeMobileFlag)
+				.insertBetValue(value, chromeMobileFlag)
 		        .placeBet()
-		        .navigateToOpenBets();
+		        .navigateToOpenBets()
+		        .showBets();
 	}
 
 	@Then("^To return: value is equal (.+)$")
@@ -80,7 +81,7 @@ public class TestSteps extends MainTest {
 	@Then("^user balance is updated by (.+)$")
 	public void userBalanceIsUpdatedByBet(String bet) {
 		loggedInUserPage = new LoggedInUserPage(event_driver)
-				.verifyUserBalanceIsUpdated(bet);
+				.verifyUserBalanceIsUpdated(bet, chromeMobileFlag);
 	}
 
 }

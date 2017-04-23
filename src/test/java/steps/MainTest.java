@@ -29,7 +29,7 @@ public class MainTest {
     private String chromeDriver;
     private String chromeBinary;
     private Boolean chromeFlag;
-    private Boolean chromeMobileFlag;
+    public Boolean chromeMobileFlag;
     private String ieDriver;
     private String ieBinary;
     private Boolean ieFlag;

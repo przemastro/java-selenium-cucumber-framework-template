@@ -6,11 +6,15 @@ import de.congrace.exp4j.UnknownFunctionException;
 import de.congrace.exp4j.UnparsableExpressionException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.server.handler.interactions.DoubleClickInSession;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -54,26 +58,45 @@ public class LoggedInUserPage extends MainPage{
         return this;
     }
 
+    /**
+     * before clicking button get some attributes to calculate single bet in the future
+     */
     public LoggedInUserPage addActiveBet() {
+        WebElement activeBetButton = driver.findElement(By.xpath(findActivebutton()));
         data_num = Double.parseDouble(activeBetButton.getAttribute("data-num"));
         data_denom = Double.parseDouble(activeBetButton.getAttribute("data-denom"));
         activeBetButton.click();
         return this;
     }
 
-    public LoggedInUserPage getUserBalance() {
-        userBalance = userBalanceButton.getText();
+    public LoggedInUserPage getUserBalance(Boolean chromeMobileFlag) {
+        if(chromeMobileFlag){
+            sleep(2000);
+            userBalance = userBalanceLink.getText();
+            mobileBetSlip.click();
+        }
+        else {
+            userBalance = userBalanceButton.getText();
+        }
         return this;
     }
 
-    public LoggedInUserPage insertBetValue(String value) {
+    public LoggedInUserPage insertBetValue(String value, Boolean chromeMobileFlag) {
         bet = Double.parseDouble(value);
-        singleBetInput.sendKeys(value);
+        if(chromeMobileFlag) {
+            singleBetInput.click();
+            playWithKeyboard(bet);
+            betslipTitle.click();
+        }
+        else {
+            singleBetInput.sendKeys(value);
+        }
         return this;
     }
 
     public LoggedInUserPage placeBet() {
         placeBetButton.click();
+        sleep(5000);
         return this;
     }
 
@@ -82,25 +105,39 @@ public class LoggedInUserPage extends MainPage{
         return this;
     }
 
+    public LoggedInUserPage showBets() {
+        //Yes I use sometimes sleep and I'm proud of it :)
+        sleep(2000);
+        showBetsButton.click();
+        return this;
+    }
 
     public LoggedInUserPage verifyToReturnValue(String toReturn) {
-        wait = new WebDriverWait(event_driver, 5);
         MathFormula mf = new MathFormula();
-        System.out.println(toReturnValue.getText());
-        Assert.assertTrue(toReturnValue.getText().contains(mf.singleBetFormula(data_num,data_denom,toReturn,bet)));
+        Assert.assertEquals(toReturnValue.getText().substring(toReturnValue.getText().indexOf("£")+1)
+                ,(mf.singleBetFormula(data_num,data_denom,toReturn,bet)));
         return this;
     }
 
     public LoggedInUserPage verifyTotalStakeValue(String totalStake) {
-        wait = new WebDriverWait(event_driver, 5);
         Assert.assertTrue(totalStakeValue.getText().contains(totalStake));
         return this;
     }
 
-    public LoggedInUserPage verifyUserBalanceIsUpdated(String bet) {
-        wait = new WebDriverWait(event_driver, 5);
-        int result = Integer.parseInt(userBalance) - Integer.parseInt(bet);
-        Assert.assertEquals(userBalanceButton.getText(),Integer.toString(result));
+    /**
+     * we need to calculate single bet according to the formula provided in the scenario
+     */
+    public LoggedInUserPage verifyUserBalanceIsUpdated(String bet, Boolean chromeMobileFlag) {
+        double result = Double.parseDouble(userBalance.substring(userBalance.indexOf("£")+1))
+                - Double.parseDouble(bet);
+        DecimalFormat res = new DecimalFormat("#.##");
+        String expectedUserBalance = res.format(result).replace(',','.');
+        if(chromeMobileFlag){
+            Assert.assertEquals(userBalanceLink.getText().substring(userBalanceLink.getText().indexOf("£") + 1), expectedUserBalance);
+        }
+        else {
+            Assert.assertEquals(userBalanceButton.getText().substring(userBalanceButton.getText().indexOf("£") + 1), expectedUserBalance);
+        }
         return this;
     }
 }

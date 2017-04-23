@@ -29,6 +29,8 @@ public class HomePage extends MainPage{
 
     public HomePage login(String name, String pass) {
         accountTabButton.click();
+        usernameField.clear();
+        passwordField.clear();
         usernameField.sendKeys(name);
         passwordField.sendKeys(pass);
         loginButton.click();

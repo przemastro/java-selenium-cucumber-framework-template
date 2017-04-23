@@ -1,5 +1,7 @@
 package pages;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import util.WebEventListener;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +18,7 @@ public class MainPage {
     protected final WebDriver driver;
     protected EventFiringWebDriver event_driver;
     protected WebEventListener eventListener;
+    public static String locator;
 
     /**
      * Some Implicit Waits definition.
@@ -28,6 +31,51 @@ public class MainPage {
         event_driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT_FOR_PAGE_LOAD, TimeUnit.SECONDS);
         event_driver.manage().timeouts().pageLoadTimeout(DEFAULT_WAIT_FOR_PAGE_LOAD, TimeUnit.SECONDS);
         event_driver.manage().timeouts().setScriptTimeout(DEFAULT_WAIT_FOR_PAGE_LOAD, TimeUnit.SECONDS);
+    }
+
+    public String findActivebutton() {
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        //firstly wait until at least one element is on the list
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//section[@class='btmarket__wrapper clickable-selections -expanded']/div[2]")));
+        boolean flag = false;
+        int j = 2;
+        //Then search for enabled button on the list
+        while(!flag) {
+            for(int i=1;i<4;i++) {
+                if(wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//section[@class='btmarket__wrapper clickable-selections -expanded']/div["+j+"]/div[2]/div[2]/div["+i+"]/button"))).isEnabled()) {
+                    locator = "//section[@class='btmarket__wrapper clickable-selections -expanded']//div["+j+"]/div[2]/div[2]/div["+i+"]/button";
+                    flag = true;
+                    break;
+                }
+            }j++;
+        }
+        return locator;
+    }
+
+    public String findKey(String key) {
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("numberpad")));
+        boolean flag = false;
+        int j = 1;
+        while(!flag) {
+            for(int i=1;i<5;i++) {
+                if(wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='numberpad']/div["+j+"]/button["+i+"]"))).getAttribute("data-value").equals(key)) {
+                    locator = "//div[@id='numberpad']/div["+j+"]/button["+i+"]";
+                    flag = true;
+                    break;
+                }
+            }j++;
+        }
+        return locator;
+    }
+
+    public void playWithKeyboard(Double bet) {
+        int betLength = Double.toString(bet).length();
+        String[] arr = Double.toString(bet).split("(?!^)");
+        for(int i=0;i<betLength;i++){
+            driver.findElement(By.xpath(findKey(arr[i]))).click();
+        }
+        sleep(2000);
     }
 
 
@@ -64,12 +112,20 @@ public class MainPage {
     WebElement eventLink;
 
     // Active Bet Button
-    @FindBy(xpath="//section[@class='btmarket__wrapper clickable-selections -expanded']/div[2]/div[2]/div[2]/div/button")
-    WebElement activeBetButton;
+    //@FindBy(xpath="//section[@class='btmarket__wrapper clickable-selections -expanded']/div[2]/div[2]/div[2]/div/button")
+    //WebElement activeBetButton;
+
+    // Mobile Bet Slip
+    @FindBy(id="mobile-betslip-count")
+    WebElement mobileBetSlip;
 
     // Single Bet Input
     @FindBy(xpath="//div[@class='betslip-selection__stake-container betslip-selection__stake-container--single']/span/input")
     WebElement singleBetInput;
+
+    // Betslip Title
+    @FindBy(id="betslip-title")
+    WebElement betslipTitle;
 
     // Place Bet Button
     @FindBy(id="place-bet-button")
@@ -78,6 +134,14 @@ public class MainPage {
     // Open Bets Tab
     @FindBy(id="openbets-tab")
     WebElement openBetsTab;
+
+    // Show Bets Button
+    @FindBy(xpath="//div[@id='cimb-alert']/input")
+    WebElement showBetsButton;
+
+    // User Balance Link
+    @FindBy(id="balanceLink")
+    WebElement userBalanceLink;
 
     // User Balance Button
     @FindBy(id="userBalance")
