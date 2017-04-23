@@ -13,7 +13,7 @@ Feature: Scenario
 
     Examples:
       | sport    | bet  | toReturn    | totalStake |
-      #| football | 0.04 | (odd+1)*bet | 0.04       |
+      | football | 0.05 | (odd+1)*bet | 0.05       |
 
     # Test data
-     | tennis   | 0.05 | (odd+1)*bet | 0.05       |
+    #| tennis   | 0.05 | (odd+1)*bet | 0.05       |

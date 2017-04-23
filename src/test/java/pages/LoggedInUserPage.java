@@ -71,7 +71,7 @@ public class LoggedInUserPage extends MainPage{
 
     public LoggedInUserPage getUserBalance(Boolean chromeMobileFlag) {
         if(chromeMobileFlag){
-            sleep(2000);
+            sleep(1000);
             userBalance = userBalanceLink.getText();
             mobileBetSlip.click();
         }
@@ -96,7 +96,7 @@ public class LoggedInUserPage extends MainPage{
 
     public LoggedInUserPage placeBet() {
         placeBetButton.click();
-        sleep(5000);
+        //sleep(2000);
         return this;
     }
 
@@ -106,7 +106,7 @@ public class LoggedInUserPage extends MainPage{
     }
 
     public LoggedInUserPage showBets() {
-        //Yes I use sometimes sleep and I'm proud of it :)
+        //Yes I use sometimes sleep and I don't have problem with that :)
         sleep(2000);
         showBetsButton.click();
         return this;
@@ -128,9 +128,10 @@ public class LoggedInUserPage extends MainPage{
      * we need to calculate single bet according to the formula provided in the scenario
      */
     public LoggedInUserPage verifyUserBalanceIsUpdated(String bet, Boolean chromeMobileFlag) {
+        DecimalFormat res = new DecimalFormat("0.00");
         double result = Double.parseDouble(userBalance.substring(userBalance.indexOf("£")+1))
                 - Double.parseDouble(bet);
-        DecimalFormat res = new DecimalFormat("#.##");
+
         String expectedUserBalance = res.format(result).replace(',','.');
         if(chromeMobileFlag){
             Assert.assertEquals(userBalanceLink.getText().substring(userBalanceLink.getText().indexOf("£") + 1), expectedUserBalance);

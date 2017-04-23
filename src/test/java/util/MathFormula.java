@@ -19,7 +19,7 @@ public class MathFormula {
     public double result;
 
     /**
-     * usage of shunting-yard algorithm to "read" math formula
+     * usage of shunting-yard algorithm to "read" math formula. We take data_num/data_denom attributes
      */
     public String singleBetFormula(Double data_num, Double data_denom, String toReturn, Double bet) {
         odd = data_num/data_denom;
@@ -36,8 +36,7 @@ public class MathFormula {
         catch (UnknownFunctionException e) {
             System.out.println(e);
         }
-
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("0.00");
         df.setRoundingMode(RoundingMode.DOWN);
         return df.format(result).replace(',','.');
     }

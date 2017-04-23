@@ -33,6 +33,9 @@ public class MainPage {
         event_driver.manage().timeouts().setScriptTimeout(DEFAULT_WAIT_FOR_PAGE_LOAD, TimeUnit.SECONDS);
     }
 
+    /**
+     * this method searches for first enabled button from the table-list of events e.g. match highlights
+     */
     public String findActivebutton() {
         WebDriverWait wait = new WebDriverWait(driver, 20);
         //firstly wait until at least one element is on the list
@@ -52,6 +55,11 @@ public class MainPage {
         return locator;
     }
 
+    /**
+     * this method is used only by mobile chrome. We need to deal with keyboard. We can not send value to input we need to press some keys.
+     * Firstly in playWithKeyboard method we split our bet and add values to array. Then we search in a loop for appropriate value on
+     * keyboard and press it.
+     */
     public String findKey(String key) {
         WebDriverWait wait = new WebDriverWait(driver, 20);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("numberpad")));
@@ -75,7 +83,6 @@ public class MainPage {
         for(int i=0;i<betLength;i++){
             driver.findElement(By.xpath(findKey(arr[i]))).click();
         }
-        sleep(2000);
     }
 
 
