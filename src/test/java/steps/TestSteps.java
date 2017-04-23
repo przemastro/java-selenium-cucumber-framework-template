@@ -47,8 +47,7 @@ public class TestSteps extends MainTest {
 	@When("^I navigate to (.+) event$")
 	public void navigateToEvent(String event) {
 		loggedInUserPage = new LoggedInUserPage(event_driver)
-				.selectEventType(event)
-		        .selectRandomEvent();
+				.selectEventType(event);
 	}
 
 	@When("^I Add the first active selection to the betslip$")
@@ -62,7 +61,8 @@ public class TestSteps extends MainTest {
 		loggedInUserPage = new LoggedInUserPage(event_driver)
 				.getUserBalance()
 				.insertBetValue(value)
-		        .placeBet();
+		        .placeBet()
+		        .navigateToOpenBets();
 	}
 
 	@Then("^To return: value is equal (.+)$")

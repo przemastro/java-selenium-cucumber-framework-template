@@ -69,5 +69,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.uncommons:reportng:1.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity:1.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity-dep:1.4" level="project" />
+    <orderEntry type="library" name="Maven: de.congrace:exp4j:0.3.11" level="project" />
   </component>
 </module>

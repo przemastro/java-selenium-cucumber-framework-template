@@ -64,7 +64,7 @@ public class MainPage {
     WebElement eventLink;
 
     // Active Bet Button
-    @FindBy(xpath="//div[@class='btmarket']/div/div/button")
+    @FindBy(xpath="//section[@class='btmarket__wrapper clickable-selections -expanded']/div[2]/div[2]/div[2]/div/button")
     WebElement activeBetButton;
 
     // Single Bet Input
@@ -75,16 +75,20 @@ public class MainPage {
     @FindBy(id="place-bet-button")
     WebElement placeBetButton;
 
+    // Open Bets Tab
+    @FindBy(id="openbets-tab")
+    WebElement openBetsTab;
+
     // User Balance Button
     @FindBy(id="userBalance")
     WebElement userBalanceButton;
 
     // ToReturn Value
-    @FindBy(id="total-to-return-price")
+    @FindBy(xpath="//div[@class='betslip-placed-bet__returns-amount u-bold']")
     WebElement toReturnValue;
 
     // TotalStake Value
-    @FindBy(id="total-stake-price")
+    @FindBy(xpath="//div[@class='betslip-placed-bet__stake-amount']")
     WebElement totalStakeValue;
 
 
