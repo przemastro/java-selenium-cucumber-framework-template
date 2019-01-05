@@ -1,7 +1,7 @@
 # JavaSeleniumCucumberFramework
 Java + Selenium WebDriver 3.3 + TestNG + Cucumber
 
-This is an initial framework created to demonstrate integration between selenium, testng and additional bdd layer (cucumber). I created it when applied for position at William Hill. It has been made in Page Object Pattern style including Page Factory.
+This is an initial framework created to demonstrate integration between selenium, testng and additional bdd layer (cucumber). I created it when applied for Dev in Test position at William Hill. It has been made in Page Object Pattern style including Page Factory.
 It allows to:
 
     Integrate pom.xml with CI. You can run tests from maven pom.xml as well as directly from Runner class
