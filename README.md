@@ -1,50 +1,47 @@
-# JavaSeleniumCucumberFramework
-Java + Selenium WebDriver 3.3 + TestNG + Cucumber
+# JavaSeleniumCucumber Test Framework
+[![GitHub issues](https://img.shields.io/github/issues/przemastro/java-selenium-cucumber-framework)](https://github.com/przemastro/java-selenium-cucumber-framework/issues)
+[![GitHub forks](https://img.shields.io/github/forks/przemastro/java-selenium-cucumber-framework)](https://github.com/przemastro/java-selenium-cucumber-framework/network)
+[![GitHub stars](https://img.shields.io/github/stars/przemastro/java-selenium-cucumber-framework)](https://github.com/przemastro/java-selenium-cucumber-framework/stargazers)
+[![Java version](https://img.shields.io/badge/Java-1.8-%23b07219)](https://github.com/przemastro/java-selenium-cucumber-framework)
+[![Chrome version](https://img.shields.io/badge/Chrome-57-brightgreen)](https://github.com/przemastro/java-selenium-cucumber-framework)
+[![IE version](https://img.shields.io/badge/IE-11-brightgreen)](https://github.com/przemastro/java-selenium-cucumber-framework)
+[![Firefox version](https://img.shields.io/badge/Firefox-52-brightgreen)](https://github.com/przemastro/java-selenium-cucumber-framework)
 
+# Features
 This is an initial framework created to demonstrate integration between selenium, testng and additional bdd layer (cucumber). I created it when applied for Dev in Test position at William Hill. It has been made in Page Object Pattern style including Page Factory.
-It allows to:
 
-    Integrate pom.xml with CI. You can run tests from maven pom.xml as well as directly from Runner class
-    Run tests against 3 browsers and in addition against chrome mobile simply by enabling flags in properties file
-    Add single bet math formula into test scenario.
-    Run Scenario with different test data
+1. Integrate pom.xml with CI. You can run tests from maven pom.xml as well as directly from Runner class
+2. Run tests against 3 browsers and in addition against chrome mobile simply by enabling flags in properties file
+3. Add single bet math formula into test scenario.
+4. Run Scenario with different test data
 
-It consists of following:
+# Installation
 
-Java classes
+1. Open repo in your favourite IDE (I use Intellij because of built-in Maven) and set Project SDK to "java version 1.8.0_*"
+2. Right click on pom.xml and set MAVEN project, you might need to re-import maven dependencies
 
-    MainTest - initialize properties and drivers
-    TestSteps - test steps binded with cucumber Scenario
-    
-    HomePage 
-    LoggedInUserPage
-    MainPage - mostly definitions of Web Elements
- 
-    WebEventListener - method definitions for driver listeners. 
-    MathFormula - usage of shunting-yard algorithm to "read" math formula from Scenario.feature
-    
-    Runner - runner of tests. User can run tests directly from this file or from maven.
+# Run
 
-Features
+Run maven build
 
-    Scenario - cucumber scenario for William Hill
+# Usage
 
-Properties file
+Example Test Feature file
 
-    functional-automated-tests.properties - .exe file paths and binaries paths for browsers
+    Scenario Outline: My first Cucumber test Scenario
+      Given I navigate to http://sports.williamhill.com/sr-admin-set-white-list-cookie.html page
+      When I login with WHATA_FOG2 and F0gUaTtest
+      And I navigate to <sport> event
+      And I Add the first active selection to the betslip
+      And I Place a <bet> pounds bet
+      Then To return: value is equal <toReturn>
+      And Total stake: value is equal <totalStake>
+      And user balance is updated by <bet>
 
+    Examples:
+      | sport    | bet  | toReturn    | totalStake |
+      | football | 0.05 | (odd+1)*bet | 0.05       |
 
-XML file 
-
-    pom - maven file with all dependencies and additional plugin to run as a maven project. It runs any cucumber runner class you want.
-
-
-Drivers
-
-    chromeDriver.exe - for Chrome 57 and mobile chrome emulator
-    IEDriverServer.exe - for IE 11
-    geckodriver.exe - for firefox 52
-    
 
     
 
