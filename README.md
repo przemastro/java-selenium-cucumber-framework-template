@@ -22,7 +22,7 @@ This is an initial framework created to demonstrate integration between selenium
 
 # Run
 
-Run maven build
+Run "Runner.java" class
 
 # Usage
 
